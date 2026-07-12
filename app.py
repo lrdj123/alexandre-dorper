@@ -64,6 +64,10 @@ def init_db():
         ''')
         db.commit()
 
+# Inicializa o banco de dados na inicialização
+with app.app_context():
+    init_db()
+
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
@@ -212,7 +216,6 @@ def deletar_foto(foto_id):
     if foto['usuario_id'] != session['user_id']:
         return jsonify({'erro': 'Você só pode deletar suas próprias fotos'}), 403
     
-    # Deletar o arquivo
     caminho = os.path.join(app.config['UPLOAD_FOLDER'], foto['arquivo'])
     if os.path.exists(caminho):
         os.remove(caminho)
@@ -294,5 +297,4 @@ def admin_nova_enciclopedia():
     return render_template('admin_enciclopedia.html')
 
 if __name__ == '__main__':
-    init_db()
     app.run(host='0.0.0.0', port=5000, debug=True)
