@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Enciclopédia{% endblock %}
+
+{% block content %}
+<div class="hero" style="padding: 50px 20px;">
+    <h1>📚 Enciclopédia de <span>Ovinos</span></h1>
+    <p>Artigos completos sobre raças, manejo, alimentação, reprodução e saúde dos ovinos.</p>
+</div>
+
+{% if session.user_id %}
+<div style="margin-bottom: 20px; text-align: right;">
+    <a href="{{ url_for('admin_nova_enciclopedia') }}" class="btn btn-primary">➕ Novo Artigo</a>
+</div>
+{% endif %}
+
+<div class="grid">
+    {% for artigo in artigos %}
+    <div class="article-card">
+        <span class="categoria">{{ artigo.categoria }}</span>
+        <h3>{{ artigo.titulo }}</h3>
+        <p>{{ artigo.conteudo[:300] }}{% if artigo.conteudo|length > 300 %}...{% endif %}</p>
+        {% if artigo.fonte %}
+        <p class="fonte">📖 Fonte: {{ artigo.fonte }}</p>
+        {% endif %}
+        <small style="color: #999;">Publicado em {{ artigo.data_criacao[:10] }}</small>
+    </div>
+    {% else %}
+    <div class="card" style="grid-column: 1 / -1; text-align: center;">
+        <p style="font-size: 1.2em; color: #888;">📖 Nenhum artigo publicado ainda. Em breve!</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

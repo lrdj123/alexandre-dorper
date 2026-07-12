@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Início{% endblock %}
+
+{% block content %}
+<div class="hero">
+    <h1>Bem-vindo ao <span>Alexandre Dorper</span></h1>
+    <p>A enciclopédia mais completa sobre ovinos, ovelhas e carneiros do Brasil. Conhecimento, fotos e dicas da criação à mesa.</p>
+    <div style="margin-top: 30px; display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+        <a href="{{ url_for('enciclopedia') }}" class="btn btn-primary">📚 Enciclopédia</a>
+        <a href="{{ url_for('galeria') }}" class="btn btn-outline" style="color:white;border-color:white;">📸 Galeria de Fotos</a>
+        <a href="{{ url_for('dicas') }}" class="btn btn-outline" style="color:white;border-color:white;">💡 Dicas</a>
+    </div>
+</div>
+
+<div class="grid" style="margin-top: 30px;">
+    <div class="card" style="text-align: center;">
+        <div style="font-size: 3em;">📚</div>
+        <h2>Enciclopédia</h2>
+        <p>Tudo sobre a raça Dorper, White Dorper, manejo, alimentação, reprodução e muito mais. Artigos completos com referências de universidades.</p>
+        <a href="{{ url_for('enciclopedia') }}" class="btn btn-primary" style="margin-top: 15px;">Explorar →</a>
+    </div>
+
+    <div class="card" style="text-align: center;">
+        <div style="font-size: 3em;">📸</div>
+        <h2>Galeria</h2>
+        <p>Fotos de ovinos, ovelhas e cordeiros em pastagens. Envie suas próprias fotos e compartilhe com a comunidade.</p>
+        <a href="{{ url_for('galeria') }}" class="btn btn-primary" style="margin-top: 15px;">Ver Fotos →</a>
+    </div>
+
+    <div class="card" style="text-align: center;">
+        <div style="font-size: 3em;">💡</div>
+        <h2>Dicas e Fórum</h2>
+        <p>Compartilhe dicas sobre criação, saúde, alimentação e manejo. Um espaço colaborativo para criadores e entusiastas.</p>
+        <a href="{{ url_for('dicas') }}" class="btn btn-primary" style="margin-top: 15px;">Participar →</a>
+    </div>
+</div>
+
+<div class="card" style="margin-top: 30px; text-align: center;">
+    <div style="font-size: 2em;">🎓</div>
+    <h2>Conteúdo de Universidades</h2>
+    <p>Acesse artigos, pesquisas e estudos de grandes universidades brasileiras sobre ovinocultura, manejo e tratamento de ovinos.</p>
+    <a href="{{ url_for('universidades') }}" class="btn btn-primary" style="margin-top: 15px;">Ver Conteúdo Acadêmico →</a>
+</div>
+
+<div class="card" style="margin-top: 30px; background: linear-gradient(135deg, var(--green-dark), var(--green-mid)); color: white;">
+    <div style="text-align: center;">
+        <h2 style="color: var(--gold); font-size: 2em;">🐑 Raça Dorper</h2>
+        <p style="font-size: 1.1em; max-width: 700px; margin: 15px auto; line-height: 1.7;">
+            Originalmente criada para as regiões mais áridas da África do Sul, a raça Dorper é resultado do cruzamento 
+            do Dorset Horn com o Persa de cabeça negra. Reconhecida por sua alta resistência, excelente qualidade de carne 
+            e adaptabilidade a diferentes climas.
+        </p>
+        <div style="margin-top: 20px; display: flex; gap: 30px; justify-content: center; flex-wrap: wrap;">
+            <div><strong style="color: var(--gold); font-size: 1.5em;">🇿🇦</strong><br>Origem: África do Sul</div>
+            <div><strong style="color: var(--gold); font-size: 1.5em;">🥩</strong><br>Excelente carcaça</div>
+            <div><strong style="color: var(--gold); font-size: 1.5em;">🌡️</strong><br>Adaptável a climas</div>
+            <div><strong style="color: var(--gold); font-size: 1.5em;">🤍</strong><br>White Dorper disponível</div>
+        </div>
+    </div>
+</div>
+{% endblock %}

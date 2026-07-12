@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Nova Dica{% endblock %}
+
+{% block content %}
+<div class="hero" style="padding: 40px 20px;">
+    <h1>💡 Publicar <span>Dica</span></h1>
+    <p>Compartilhe seu conhecimento sobre criação, manejo e saúde de ovinos.</p>
+</div>
+
+<div class="card" style="max-width: 600px; margin: 20px auto;">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST" style="display: flex; flex-direction: column; gap: 15px;">
+        <div>
+            <label>Título</label>
+            <input type="text" name="titulo" required placeholder="Ex: Como identificar verminose em ovelhas" style="width:100%;padding:12px;border-radius:8px;border:1px solid #ddd;font-size:1em;">
+        </div>
+        <div>
+            <label>Categoria</label>
+            <select name="categoria" style="width:100%;padding:12px;border-radius:8px;border:1px solid #ddd;font-size:1em;">
+                <option value="geral">Geral</option>
+                <option value="alimentacao">Alimentação</option>
+                <option value="saude">Saúde</option>
+                <option value="reproducao">Reprodução</option>
+                <option value="manejo">Manejo</option>
+                <option value="pastagem">Pastagem</option>
+            </select>
+        </div>
+        <div>
+            <label>Conteúdo da dica</label>
+            <textarea name="conteudo" required rows="6" placeholder="Escreva sua dica aqui..." style="width:100%;padding:12px;border-radius:8px;border:1px solid #ddd;font-size:1em;resize:vertical;"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">💡 Publicar Dica</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Dicas sobre Ovinos{% endblock %}
+
+{% block content %}
+<div class="hero" style="padding: 50px 20px;">
+    <h1>💡 Dicas e <span>Fórum</span></h1>
+    <p>Compartilhe e descubra dicas sobre criação, saúde e manejo de ovinos.</p>
+</div>
+
+{% if session.user_id %}
+<div style="margin-bottom: 20px; text-align: right;">
+    <a href="{{ url_for('nova_dica') }}" class="btn btn-primary">💡 Publicar Dica</a>
+</div>
+{% endif %}
+
+<div class="grid">
+    {% for dica in dicas %}
+    <div class="tip-card">
+        <span class="categoria">{{ dica.categoria }}</span>
+        <h4>{{ dica.titulo }}</h4>
+        <p class="autor">Por {{ dica.nome }} · {{ dica.data_criacao[:10] }}</p>
+        <div class="conteudo">{{ dica.conteudo }}</div>
+        {% if session.user_id == dica.usuario_id %}
+        <form action="{{ url_for('deletar_dica', dica_id=dica.id) }}" method="POST" style="margin-top:10px;">
+            <button type="submit" class="btn btn-danger" style="padding:5px 12px;font-size:0.8em;" onclick="return confirm('Deletar esta dica?')">🗑️ Deletar</button>
+        </form>
+        {% endif %}
+    </div>
+    {% else %}
+    <div class="card" style="grid-column: 1 / -1; text-align: center;">
+        <p style="font-size: 1.2em; color: #888;">💡 Nenhuma dica publicada ainda. Compartilhe seu conhecimento!</p>
+        {% if not session.user_id %}
+        <p style="margin-top: 10px;"><a href="{{ url_for('entrar') }}">Faça login</a> para publicar dicas.</p>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

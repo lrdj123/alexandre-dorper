@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Enviar Foto{% endblock %}
+
+{% block content %}
+<div class="hero" style="padding: 40px 20px;">
+    <h1>📸 Enviar <span>Foto</span></h1>
+    <p>Compartilhe fotos de ovinos, ovelhas, carneiros e pastagens.</p>
+</div>
+
+<div class="card" style="max-width: 500px; margin: 20px auto;">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 15px;">
+        <div>
+            <label>Escolher foto</label>
+            <input type="file" name="foto" accept="image/png,image/jpeg,image/gif,image/webp" required style="width:100%;padding:10px;border-radius:8px;border:1px solid #ddd;">
+        </div>
+        <div>
+            <label>Legenda (opcional)</label>
+            <input type="text" name="legenda" placeholder="Ex: Ovelhas Dorper no pasto" style="width:100%;padding:12px;border-radius:8px;border:1px solid #ddd;font-size:1em;">
+        </div>
+        <button type="submit" class="btn btn-primary">📸 Enviar Foto</button>
+    </form>
+</div>
+{% endblock %}

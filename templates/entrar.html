@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Entrar{% endblock %}
+
+{% block content %}
+<div class="hero" style="padding: 40px 20px;">
+    <h1>🔐 Entrar</h1>
+</div>
+
+<div class="card" style="max-width: 400px; margin: 20px auto;">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST" style="display: flex; flex-direction: column; gap: 15px;">
+        <div>
+            <label>E-mail</label>
+            <input type="email" name="email" required style="width:100%;padding:12px;border-radius:8px;border:1px solid #ddd;font-size:1em;">
+        </div>
+        <div>
+            <label>Senha</label>
+            <input type="password" name="senha" required style="width:100%;padding:12px;border-radius:8px;border:1px solid #ddd;font-size:1em;">
+        </div>
+        <button type="submit" class="btn btn-primary" style="margin-top: 5px;">Entrar</button>
+    </form>
+    <p style="text-align: center; margin-top: 15px;">Não tem conta? <a href="{{ url_for('cadastro') }}">Cadastre-se</a></p>
+</div>
+{% endblock %}

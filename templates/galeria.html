@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Galeria de Fotos{% endblock %}
+
+{% block content %}
+<div class="hero" style="padding: 50px 20px;">
+    <h1>📸 Galeria de <span>Fotos</span></h1>
+    <p>Fotos de ovinos, ovelhas e cordeiros enviadas pela comunidade.</p>
+</div>
+
+{% if session.user_id %}
+<div style="margin-bottom: 20px; text-align: right;">
+    <a href="{{ url_for('upload_foto') }}" class="btn btn-primary">📸 Enviar Foto</a>
+</div>
+{% endif %}
+
+<div class="photo-grid">
+    {% for foto in fotos %}
+    <div class="photo-item">
+        <img src="{{ url_for('static', filename='uploads/' + foto.arquivo) }}" alt="{{ foto.legenda or 'Foto de ovino' }}" loading="lazy">
+        <div class="photo-info">
+            {% if foto.legenda %}<p>{{ foto.legenda }}</p>{% endif %}
+            <small>Por {{ foto.nome }} · {{ foto.data_upload[:10] }}</small>
+        </div>
+        {% if session.user_id == foto.usuario_id %}
+        <div class="photo-actions">
+            <form action="{{ url_for('deletar_foto', foto_id=foto.id) }}" method="POST" style="display:inline;">
+                <button type="submit" class="btn btn-danger" style="padding:5px 10px;font-size:0.8em;" onclick="return confirm('Deletar esta foto?')">🗑️</button>
+            </form>
+        </div>
+        {% endif %}
+    </div>
+    {% else %}
+    <div class="card" style="grid-column: 1 / -1; text-align: center;">
+        <p style="font-size: 1.2em; color: #888;">📸 Nenhuma foto enviada ainda. Seja o primeiro!</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

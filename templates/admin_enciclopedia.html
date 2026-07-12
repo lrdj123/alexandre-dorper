@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Novo Artigo na Enciclopédia{% endblock %}
+
+{% block content %}
+<div class="hero" style="padding: 40px 20px;">
+    <h1>📚 Novo Artigo na <span>Enciclopédia</span></h1>
+    <p>Adicione conteúdo sobre ovinos, ovelhas e carneiros.</p>
+</div>
+
+<div class="card" style="max-width: 600px; margin: 20px auto;">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST" style="display: flex; flex-direction: column; gap: 15px;">
+        <div>
+            <label>Título do artigo</label>
+            <input type="text" name="titulo" required placeholder="Ex: Características da Raça Dorper" style="width:100%;padding:12px;border-radius:8px;border:1px solid #ddd;font-size:1em;">
+        </div>
+        <div>
+            <label>Categoria</label>
+            <select name="categoria" style="width:100%;padding:12px;border-radius:8px;border:1px solid #ddd;font-size:1em;">
+                <option value="raca">Raça</option>
+                <option value="alimentacao">Alimentação</option>
+                <option value="saude">Saúde e Tratamentos</option>
+                <option value="manejo">Manejo</option>
+                <option value="reproducao">Reprodução</option>
+                <option value="curiosidades">Curiosidades</option>
+            </select>
+        </div>
+        <div>
+            <label>Conteúdo</label>
+            <textarea name="conteudo" required rows="10" placeholder="Escreva o artigo completo aqui..." style="width:100%;padding:12px;border-radius:8px;border:1px solid #ddd;font-size:1em;resize:vertical;"></textarea>
+        </div>
+        <div>
+            <label>Fonte (opcional)</label>
+            <input type="text" name="fonte" placeholder="Ex: EMBRAPA, UFU, ABCDorper..." style="width:100%;padding:12px;border-radius:8px;border:1px solid #ddd;font-size:1em;">
+        </div>
+        <button type="submit" class="btn btn-primary">📚 Publicar Artigo</button>
+    </form>
+</div>
+{% endblock %}

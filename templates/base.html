@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alexandre Dorper - {% block title %}Enciclopédia de Ovinos{% endblock %}</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --green-dark: #1a3c2a;
+            --green-mid: #2d5a3d;
+            --green-light: #4a8c5c;
+            --green-pasture: #5cb85c;
+            --white-soft: #f5f0e8;
+            --cream: #faf6ef;
+            --brown: #8B6F47;
+            --gold: #c9a84c;
+            --text: #2c2c2c;
+            --shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--cream);
+            background-image: url('https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            min-height: 100vh;
+            color: var(--text);
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(245, 240, 232, 0.85);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        body > * { position: relative; z-index: 1; }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--green-dark), var(--green-mid));
+            padding: 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8em;
+            color: var(--cream);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo span { color: var(--gold); }
+        .logo small { font-size: 0.4em; display: block; font-family: 'Inter', sans-serif; font-weight: 300; color: #a0c8a0; letter-spacing: 2px; }
+
+        nav {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: var(--cream);
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        nav a:hover { background: rgba(255,255,255,0.15); }
+        nav a.active { background: var(--gold); color: var(--green-dark); }
+
+        .user-area {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: var(--cream);
+            font-size: 0.9em;
+        }
+
+        .user-area a { color: var(--gold); text-decoration: none; font-weight: 600; }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 24px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95em;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: var(--gold);
+            color: var(--green-dark);
+        }
+
+        .btn-primary:hover { background: #b89530; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(201,168,76,0.4); }
+
+        .btn-success {
+            background: var(--green-light);
+            color: white;
+        }
+
+        .btn-success:hover { background: var(--green-mid); transform: translateY(-2px); }
+
+        .btn-danger {
+            background: #c0392b;
+            color: white;
+        }
+
+        .btn-danger:hover { background: #a93226; }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--gold);
+            color: var(--gold);
+        }
+
+        .btn-outline:hover { background: var(--gold); color: var(--green-dark); }
+
+        /* Flash Messages */
+        .flashes {
+            margin: 20px auto;
+            max-width: 1200px;
+            padding: 0 20px;
+        }
+
+        .flash {
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            font-weight: 500;
+            animation: slideIn 0.3s;
+        }
+
+        .flash.success { background: #d4edda; color: #155724; border-left: 4px solid var(--green-light); }
+        .flash.error { background: #f8d7da; color: #721c24; border-left: 4px solid #c0392b; }
+        .flash.info { background: #d1ecf1; color: #0c5460; border-left: 4px solid #17a2b8; }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Cards */
+        .card {
+            background: rgba(255,255,255,0.95);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+            backdrop-filter: blur(5px);
+        }
+
+        .card h2 { font-family: 'Playfair Display', serif; color: var(--green-dark); margin-bottom: 15px; }
+        .card h3 { font-family: 'Playfair Display', serif; color: var(--green-mid); margin-bottom: 10px; }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--green-dark);
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1em;
+            font-family: 'Inter', sans-serif;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--gold);
+        }
+
+        .form-group textarea { min-height: 120px; resize: vertical; }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 80px 20px 60px;
+            background: linear-gradient(rgba(26,60,42,0.8), rgba(26,60,42,0.9)), url('https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            border-radius: 20px;
+            margin: 20px 0;
+        }
+
+        .hero h1 { font-family: 'Playfair Display', serif; font-size: 3em; margin-bottom: 15px; }
+        .hero h1 span { color: var(--gold); }
+        .hero p { font-size: 1.2em; max-width: 600px; margin: 0 auto; opacity: 0.9; line-height: 1.6; }
+
+        /* Footer */
+        footer {
+            background: var(--green-dark);
+            color: var(--cream);
+            text-align: center;
+            padding: 30px;
+            margin-top: 40px;
+        }
+
+        footer p { opacity: 0.8; font-size: 0.9em; }
+
+        /* Photo Grid */
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .photo-item {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            position: relative;
+            background: white;
+        }
+
+        .photo-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .photo-info {
+            padding: 12px;
+        }
+
+        .photo-info p { font-size: 0.9em; color: #666; }
+        .photo-info small { color: #999; }
+
+        .photo-actions {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: none;
+        }
+
+        .photo-item:hover .photo-actions { display: block; }
+
+        /* Article Card */
+        .article-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            border-left: 4px solid var(--gold);
+        }
+
+        .article-card h3 { color: var(--green-dark); margin-bottom: 10px; }
+        .article-card .fonte { font-size: 0.85em; color: var(--gold); font-style: italic; }
+        .article-card .categoria {
+            display: inline-block;
+            background: var(--green-light);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            margin-bottom: 10px;
+        }
+
+        /* Tip Card */
+        .tip-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .tip-card h4 { color: var(--green-dark); }
+        .tip-card .autor { font-size: 0.85em; color: var(--gold); margin-bottom: 10px; }
+        .tip-card .conteudo { line-height: 1.6; }
+
+        @media (max-width: 768px) {
+            .header-inner { flex-direction: column; gap: 10px; }
+            .hero h1 { font-size: 2em; }
+            .hero { padding: 40px 20px; }
+            .grid { grid-template-columns: 1fr; }
+            nav { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-inner">
+            <a href="/" class="logo">
+                🐑 Alexandre <span>Dorper</span>
+                <small>ENCICLOPÉDIA DE OVINOS</small>
+            </a>
+            <nav>
+                <a href="{{ url_for('index') }}" class="{% if request.path == '/' %}active{% endif %}">Início</a>
+                <a href="{{ url_for('enciclopedia') }}" class="{% if 'enciclopedia' in request.path and 'admin' not in request.path %}active{% endif %}">Enciclopédia</a>
+                <a href="{{ url_for('galeria') }}" class="{% if 'galeria' in request.path %}active{% endif %}">Galeria</a>
+                <a href="{{ url_for('dicas') }}" class="{% if 'dicas' in request.path and 'nova' not in request.path %}active{% endif %}">Dicas</a>
+                <a href="{{ url_for('universidades') }}">Universidades</a>
+            </nav>
+            <div class="user-area">
+                {% if session.user_id %}
+                    👤 {{ session.user_nome }}
+                    <a href="{{ url_for('upload_foto') }}">📸 Enviar Foto</a>
+                    <a href="{{ url_for('nova_dica') }}">💡 Nova Dica</a>
+                    <a href="{{ url_for('sair') }}">🚪 Sair</a>
+                {% else %}
+                    <a href="{{ url_for('entrar') }}">Entrar</a>
+                    <a href="{{ url_for('cadastro') }}" class="btn btn-primary" style="padding:6px 16px;font-size:0.85em;">Cadastrar</a>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+
+    <div class="flashes">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>🐑 Alexandre Dorper © 2026 — Sua enciclopédia completa sobre ovinos, ovelhas e carneiros</p>
+            <p style="margin-top:8px;opacity:0.6;font-size:0.85em;">"O conhecimento sobre ovinos começa aqui"</p>
+        </div>
+    </footer>
+</body>
+</html>
