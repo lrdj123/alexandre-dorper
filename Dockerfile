@@ -3,11 +3,5 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
-EXPOSE 5000
-CMD ["gunicorn", "app:app", "--bind", "0.0.0.0:5000", "--timeout", "60", "--workers", "2"]FROM python:3.11-slim
-WORKDIR /app
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-COPY . .
-EXPOSE 5000
-CMD ["gunicorn", "app:app", "--bind", "0.0.0.0:5000", "--timeout", "60", "--workers", "2"]
+EXPOSE 8080
+CMD ["gunicorn", "app:app", "--bind", "0.0.0.0:8080", "--timeout", "60", "--workers", "2"]
