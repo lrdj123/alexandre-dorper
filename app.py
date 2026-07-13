@@ -84,6 +84,14 @@ def enciclopedia():
     artigos = db.execute('SELECT * FROM enciclopedia ORDER BY data_criacao DESC').fetchall()
     return render_template('enciclopedia.html', artigos=artigos)
 
+@app.route('/enciclopedia/<int:id>')
+def ver_artigo(id):
+    db = get_db()
+    artigo = db.execute('SELECT * FROM enciclopedia WHERE id = ?', (id,)).fetchone()
+    if artigo is None:
+        return redirect(url_for('enciclopedia'))
+    return render_template('artigo.html', artigo=artigo)
+
 @app.route('/galeria')
 def galeria():
     db = get_db()
