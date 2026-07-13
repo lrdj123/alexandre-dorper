@@ -357,6 +357,9 @@
                     👤 {{ session.user_nome }}
                     <a href="{{ url_for('upload_foto') }}">📸 Enviar Foto</a>
                     <a href="{{ url_for('nova_dica') }}">💡 Nova Dica</a>
+                    {% if session.user_email == 'alexandrejrr2013@gmail.com' %}
+                        <a href="{{ url_for('admin_nova_enciclopedia') }}" style="color:var(--gold);">📝 Admin</a>
+                    {% endif %}
                     <a href="{{ url_for('sair') }}">🚪 Sair</a>
                 {% else %}
                     <a href="{{ url_for('entrar') }}">Entrar</a>
