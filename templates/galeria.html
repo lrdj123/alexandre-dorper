@@ -16,7 +16,10 @@
 <div class="photo-grid">
     {% for foto in fotos %}
     <div class="photo-item">
-        <img src="{{ url_for('static', filename='uploads/' + foto.arquivo) }}" alt="{{ foto.legenda or 'Foto de ovino' }}" loading="lazy">
+        <img src="{{ url_for('static', filename='uploads/' + foto.arquivo) }}" 
+             alt="{{ foto.legenda or 'Foto de ovino' }}" 
+             loading="lazy"
+             onclick="openModal(this.src, '{{ foto.legenda or 'Foto de ovino' }}')">
         <div class="photo-info">
             {% if foto.legenda %}<p>{{ foto.legenda }}</p>{% endif %}
             <small>Por {{ foto.nome }} · {{ foto.data_upload[:10] }}</small>
