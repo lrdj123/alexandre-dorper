@@ -4,6 +4,9 @@ import hashlib
 from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
 from werkzeug.utils import secure_filename
 
+# E-mail do administrador (dono do site) - só ele pode criar artigos na enciclopédia
+ADMIN_EMAIL = 'alexandrejrr2013@gmail.com'
+
 app = Flask(__name__)
 app.secret_key = 'alexandre_dorper_chave_secreta_2026'
 
@@ -151,6 +154,7 @@ def entrar():
         if user:
             session['user_id'] = user['id']
             session['user_nome'] = user['nome']
+            session['user_email'] = user['email']
             flash(f'Bem-vindo, {user["nome"]}!', 'success')
             return redirect(url_for('index'))
         else:
@@ -277,6 +281,13 @@ def deletar_dica(dica_id):
 def admin_nova_enciclopedia():
     if 'user_id' not in session:
         return redirect(url_for('entrar'))
+    
+    # Só o administrador (dono) pode criar artigos na enciclopédia
+    db = get_db()
+    user = db.execute('SELECT * FROM usuarios WHERE id = ?', (session['user_id'],)).fetchone()
+    if not user or user['email'] != ADMIN_EMAIL:
+        flash('Acesso restrito. Apenas o administrador do site pode criar artigos.', 'error')
+        return redirect(url_for('enciclopedia'))
     
     if request.method == 'POST':
         titulo = request.form['titulo']
