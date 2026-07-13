@@ -15,15 +15,18 @@
 
 <div class="grid">
     {% for artigo in artigos %}
+    <a href="{{ url_for('ver_artigo', id=artigo.id) }}" style="text-decoration: none; color: inherit;">
     <div class="article-card">
         <span class="categoria">{{ artigo.categoria }}</span>
         <h3>{{ artigo.titulo }}</h3>
-        <p>{{ artigo.conteudo[:300] }}{% if artigo.conteudo|length > 300 %}...{% endif %}</p>
+        <p>{{ artigo.conteudo[:250] }}{% if artigo.conteudo|length > 250 %}...{% endif %}</p>
         {% if artigo.fonte %}
         <p class="fonte">📖 Fonte: {{ artigo.fonte }}</p>
         {% endif %}
         <small style="color: #999;">Publicado em {{ artigo.data_criacao[:10] }}</small>
+        <p style="color: var(--gold); margin-top: 10px; font-weight: bold;">Ler completo →</p>
     </div>
+    </a>
     {% else %}
     <div class="card" style="grid-column: 1 / -1; text-align: center;">
         <p style="font-size: 1.2em; color: #888;">📖 Nenhum artigo publicado ainda. Em breve!</p>
